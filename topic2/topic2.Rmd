@@ -1,0 +1,46 @@
+---
+title: "Use python in R"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+---
+### Import python
+```{python}
+import pandas as pd
+import pandas as pd
+import numpy as np
+```
+
+### call python script in R
+```{r}
+library(reticulate)
+source_python('add.py')
+add(5, 10)
+```
+
+### Read data
+```{python}
+df = pd.read_csv("311_012322_013022.csv")
+df['hour24'] = pd.to_datetime(df['Created Date']).dt.hour
+df.head()
+```
+### Convert pandas datafram to R dataframe
+
+```{r}
+library(tidyverse)
+df_r = py$df
+df_r %>% head()
+```
+
+
+### Histogram in R
+
+
+```{r}
+ggplot2::ggplot(df_r,aes(x=hour24,fill=Borough))+ 
+  geom_histogram(binwidth = 1, bins = 24)+
+  ggtitle("Hourly Request by Borough in R")
+```
+
+
